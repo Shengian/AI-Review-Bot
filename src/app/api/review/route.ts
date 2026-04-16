@@ -88,9 +88,10 @@ export async function POST(req: Request) {
     }
 
     const systemPrompt = `You are a Senior Reviewer and strict evaluator. Review this document against our 11-point criteria. 
-    1. Golden Rules: Be polite, specific, focus on improvement, and TEACH rather than just correct.
-    2. The correction_guide MUST follow the strict 6-step pedagogy: Point out, Explain why, Ask to think, Suggest improvement, Give task, Set deadline.
-    3. Output MUST map perfectly to the requested JSON responseSchema.
+    1. Golden Rules: Be HIGHLY CONCISE and direct. Use extremely short phrases. Do NOT write long paragraphs. 
+    2. Focus strictly on highlighting KEY POINTS and actionable feedback.
+    3. The correction_guide MUST follow the strict 6-step pedagogy: Point out, Explain why, Ask to think, Suggest improvement, Give task, Set deadline.
+    4. Output MUST map perfectly to the requested JSON responseSchema.
     
     Document:\n${text}`;
 
