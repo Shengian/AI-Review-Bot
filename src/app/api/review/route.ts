@@ -63,7 +63,8 @@ export async function POST(req: Request) {
       process.env.GEMINI_API_KEY_3,
       process.env.GEMINI_API_KEY_4,
       process.env.GEMINI_API_KEY_5,
-      process.env.GEMINI_API_KEY_6
+      process.env.GEMINI_API_KEY_6,
+      process.env.GEMINI_API_KEY_7
     ].filter(key => typeof key === 'string' && key.trim() !== "");
     const { text } = await req.json();
     textContent = text || "";
@@ -112,16 +113,11 @@ export async function POST(req: Request) {
         success = true;
         break; // Stop looping, we got a successful response!
       } catch (apiErr: any) {
-        console.warn(`⚠️ API Key ${i + 1} Failed: Rate Limiting or Server Overload.`);
+        console.warn(`⚠️ API Key ${i + 1} Failed:`, apiErr?.message);
         finalApiError = apiErr;
         
-        // If it's a rate limit (429) or overloaded (503), try the next key
-        if (apiErr.status === 503 || apiErr.status === 429 || apiErr.message?.includes("429")) {
-          continue; 
-        } else {
-          // If it's a hard error (like bad format), throw it immediately
-          throw apiErr;
-        }
+        // Always try the next key if one fails, to protect against invalid/corrupted keys hurting the loop
+        continue;
       }
     }
 
